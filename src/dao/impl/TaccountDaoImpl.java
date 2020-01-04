@@ -11,14 +11,15 @@ import util.DBUtil;
 public class TaccountDaoImpl implements TaccountDao{
 
 	@Override
-	public boolean checkAccount(String account) {
-		Connection conn=null;
+	public boolean checkAccount(String account,Connection conn) {
+		//Connection conn=null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		String sql="select count(*) from tbl_account where account=?";
 		boolean flag=true;
 		try {
-			conn=DBUtil.getConnection();
+			//conn=DBUtil.getConnection();
+			System.out.println(conn);
 			ps=conn.prepareStatement(sql);
 			ps.setString(1, account);
 			rs=ps.executeQuery();
@@ -31,9 +32,11 @@ public class TaccountDaoImpl implements TaccountDao{
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
+			//throw new SQLException();受检异常必须处理，所以要用运行时异常
+			throw new RuntimeException();
 		}finally {
 			try {
-				DBUtil.DBClose(conn, ps, rs);
+				DBUtil.DBClose(null, ps, rs);
 			} catch (SQLException e) {
 				
 				e.printStackTrace();
@@ -44,8 +47,9 @@ public class TaccountDaoImpl implements TaccountDao{
 	}
 
 	@Override
-	public int getBalanceByAccount(String account) {
-		Connection conn=null;
+	public int getBalanceByAccount(String account,Connection conn) {
+		//Connection conn=null;
+		System.out.println(conn);
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		String sql="select balance from tbl_account where account=?";
@@ -62,9 +66,10 @@ public class TaccountDaoImpl implements TaccountDao{
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
+			throw new RuntimeException();
 		}finally {
 			try {
-				DBUtil.DBClose(conn, ps, rs);
+				DBUtil.DBClose(null, ps, rs);
 			} catch (SQLException e) {
 				
 				e.printStackTrace();
@@ -74,8 +79,9 @@ public class TaccountDaoImpl implements TaccountDao{
 	}
 
 	@Override
-	public void updateBalanceByAccount(String account, int balance) {
-		Connection conn=null;
+	public void updateBalanceByAccount(String account, int balance,Connection conn) {
+		//Connection conn=null;
+		System.out.println(conn);
 		PreparedStatement ps=null;
 		
 		String sql="update tbl_account set balance=? where account=?";
@@ -90,12 +96,14 @@ public class TaccountDaoImpl implements TaccountDao{
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
+			throw new RuntimeException();
 		}finally {
 			try {
-				DBUtil.DBClose(conn, ps, null);
+				DBUtil.DBClose(null, ps, null);
 			} catch (SQLException e) {
 				
 				e.printStackTrace();
+				
 			}
 		}
 		

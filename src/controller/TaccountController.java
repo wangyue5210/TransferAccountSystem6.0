@@ -28,6 +28,8 @@ public class TaccountController extends HttpServlet {
 		String zcAccount=request.getParameter("zcAccount");
 		String zrAccount=request.getParameter("zrAccount");
 		String zzBalanceStr=request.getParameter("zzBalance");
+		
+		//创建业务层对象，调用转账业务
 		TaccountService taccountService=new TaccountServiceImpl();
 		taccountService.taccount(zcAccount, zrAccount, zzBalanceStr);
 		
