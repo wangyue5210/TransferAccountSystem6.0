@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.jasper.tagplugins.jstl.core.Set;
+
 
 
 public class DBUtil {
@@ -27,9 +29,16 @@ public class DBUtil {
 	private static final String user="root";
 	private static final String password="root";
 	
+	private static  ThreadLocal<Connection> t=new ThreadLocal<Connection>();
+	
+	
 	public static Connection getConnection() throws SQLException {
 		
-		Connection conn = DriverManager.getConnection(url, user, password);
+		Connection conn =t.get(); 
+		if (conn==null) {
+			conn=DriverManager.getConnection(url, user, password);
+			t.set(conn);
+		}
 		return conn;
 	}
 	
@@ -45,6 +54,7 @@ public class DBUtil {
 		}
 		if (conn!=null) {
 			conn.close();
+			t.remove();//由于线程执行完之后是继续放到线程池而不是自动销毁，所以必须手动移除
 			
 		}
 	} 

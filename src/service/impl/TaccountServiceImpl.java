@@ -25,17 +25,17 @@ public class TaccountServiceImpl implements TaccountService {
 			conn.setAutoCommit(false);
 			System.out.println("------开始转账--------");
 
-			if (taccountDao.checkAccount(zcAccount,conn)) {
-				if (taccountDao.checkAccount(zrAccount,conn)) {
+			if (taccountDao.checkAccount(zcAccount)) {
+				if (taccountDao.checkAccount(zrAccount)) {
 					// 根据转出账号取得转出账号余额
-					int zcBalance = taccountDao.getBalanceByAccount(zcAccount,conn);
+					int zcBalance = taccountDao.getBalanceByAccount(zcAccount);
 					if (zzBalance <= zcBalance) {
 						// 扣钱
-						taccountDao.updateBalanceByAccount(zcAccount, zcBalance - zzBalance,conn);
+						taccountDao.updateBalanceByAccount(zcAccount, zcBalance - zzBalance);
 						// 通过转入账号取得转入账号余额
-						int zrBalance = taccountDao.getBalanceByAccount(zrAccount,conn);
+						int zrBalance = taccountDao.getBalanceByAccount(zrAccount);
 						// 更新转入账号余额
-						taccountDao.updateBalanceByAccount(zrAccount, zrBalance + zzBalance,conn);
+						taccountDao.updateBalanceByAccount(zrAccount, zrBalance + zzBalance);
 					}
 
 				}

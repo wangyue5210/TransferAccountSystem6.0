@@ -11,14 +11,14 @@ import util.DBUtil;
 public class TaccountDaoImpl implements TaccountDao{
 
 	@Override
-	public boolean checkAccount(String account,Connection conn) {
-		//Connection conn=null;
+	public boolean checkAccount(String account) {
+		Connection conn=null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		String sql="select count(*) from tbl_account where account=?";
 		boolean flag=true;
 		try {
-			//conn=DBUtil.getConnection();
+			conn=DBUtil.getConnection();
 			System.out.println(conn);
 			ps=conn.prepareStatement(sql);
 			ps.setString(1, account);
@@ -47,15 +47,16 @@ public class TaccountDaoImpl implements TaccountDao{
 	}
 
 	@Override
-	public int getBalanceByAccount(String account,Connection conn) {
-		//Connection conn=null;
-		System.out.println(conn);
+	public int getBalanceByAccount(String account) {
+		Connection conn=null;
+		
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		String sql="select balance from tbl_account where account=?";
 		int balance=0;
 		try {
 			conn=DBUtil.getConnection();
+			System.out.println(conn);
 			ps=conn.prepareStatement(sql);
 			ps.setString(1, account);
 			rs=ps.executeQuery();
@@ -79,15 +80,16 @@ public class TaccountDaoImpl implements TaccountDao{
 	}
 
 	@Override
-	public void updateBalanceByAccount(String account, int balance,Connection conn) {
-		//Connection conn=null;
-		System.out.println(conn);
+	public void updateBalanceByAccount(String account, int balance) {
+		Connection conn=null;
+		
 		PreparedStatement ps=null;
 		
 		String sql="update tbl_account set balance=? where account=?";
 		
 		try {
 			conn=DBUtil.getConnection();
+			System.out.println(conn);
 			ps=conn.prepareStatement(sql);
 			ps.setInt(1, balance);
 			ps.setString(2, account);
