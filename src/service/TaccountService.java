@@ -1,7 +1,7 @@
 package service;
 
 public interface TaccountService {
-	public void taccount(String zcAccount,String zrAccount,String zzBalanceStr);
+	public boolean taccount(String zcAccount,String zrAccount,String zzBalanceStr);
 
 	
 

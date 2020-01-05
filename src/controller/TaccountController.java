@@ -17,8 +17,9 @@ import dao.TaccountDao;
 import dao.impl.TaccountDaoImpl;
 import service.TaccountService;
 import service.impl.TaccountServiceImpl;
-import service.impl.TaccountServiceProxy;
+
 import util.DBUtil;
+import util.TransactionInvocationHandler;
 
 
 public class TaccountController extends HttpServlet {
@@ -35,22 +36,26 @@ public class TaccountController extends HttpServlet {
 //		taccountService.taccount(zcAccount, zrAccount, zzBalanceStr);
 		
 		//增加代理模式
+//		
+//		TaccountServiceProxy tsp=new TaccountServiceProxy(tsi);
+//		tsp.taccount(zcAccount, zrAccount, zzBalanceStr);
+
+		
 		TaccountServiceImpl tsi=new TaccountServiceImpl();
-		TaccountServiceProxy tsp=new TaccountServiceProxy(tsi);
-		tsp.taccount(zcAccount, zrAccount, zzBalanceStr);
-
-		
-		
-		
-		
-		
+		TransactionInvocationHandler tih=new TransactionInvocationHandler(tsi);
+		TaccountService ts=(TaccountService) tih.getProxy();
+		boolean flag= ts.taccount(zcAccount, zrAccount, zzBalanceStr);
 		
 
 			
 			
+		if (flag) {
+			response.sendRedirect(request.getContextPath()+"/success.jsp");
+		}
 		
-		
-		response.sendRedirect(request.getContextPath()+"/success.jsp");
+		else {
+			response.sendRedirect(request.getContextPath()+"/fail.jsp");
+		}
 		
 		
 	}

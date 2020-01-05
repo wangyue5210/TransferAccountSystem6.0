@@ -10,8 +10,10 @@ import util.DBUtil;
 
 public class TaccountServiceImpl implements TaccountService {
 
+	private boolean flag=false;
+
 	@Override
-	public void taccount(String zcAccount, String zrAccount, String zzBalanceStr) {
+	public boolean taccount(String zcAccount, String zrAccount, String zzBalanceStr) {
 		int zzBalance = Integer.parseInt(zzBalanceStr);
 		// System.out.println(zcAccount+zrAccount+zzBalance);
 
@@ -29,11 +31,14 @@ public class TaccountServiceImpl implements TaccountService {
 						int zrBalance = taccountDao.getBalanceByAccount(zrAccount);
 						// 更新转入账号余额
 						taccountDao.updateBalanceByAccount(zrAccount, zrBalance + zzBalance);
+						flag=true;
 					}
 
 				}
 
 			}
+			
+			return flag;
 
 			
 
