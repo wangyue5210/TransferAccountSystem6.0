@@ -17,6 +17,7 @@ import dao.TaccountDao;
 import dao.impl.TaccountDaoImpl;
 import service.TaccountService;
 import service.impl.TaccountServiceImpl;
+import service.impl.TaccountServiceProxy;
 import util.DBUtil;
 
 
@@ -30,9 +31,14 @@ public class TaccountController extends HttpServlet {
 		String zzBalanceStr=request.getParameter("zzBalance");
 		
 		//创建业务层对象，调用转账业务
-		TaccountService taccountService=new TaccountServiceImpl();
-		taccountService.taccount(zcAccount, zrAccount, zzBalanceStr);
+//		TaccountService taccountService=new TaccountServiceImpl();
+//		taccountService.taccount(zcAccount, zrAccount, zzBalanceStr);
 		
+		//增加代理模式
+		TaccountServiceImpl tsi=new TaccountServiceImpl();
+		TaccountServiceProxy tsp=new TaccountServiceProxy(tsi);
+		tsp.taccount(zcAccount, zrAccount, zzBalanceStr);
+
 		
 		
 		

@@ -17,14 +17,7 @@ public class TaccountServiceImpl implements TaccountService {
 
 		TaccountDao taccountDao = new TaccountDaoImpl();
 
-		// 开启事务
-		Connection conn = null;
-		try {
-			conn = DBUtil.getConnection();
-			System.out.println("service:"+conn);
-			conn.setAutoCommit(false);
-			System.out.println("------开始转账--------");
-
+	
 			if (taccountDao.checkAccount(zcAccount)) {
 				if (taccountDao.checkAccount(zrAccount)) {
 					// 根据转出账号取得转出账号余额
@@ -42,25 +35,7 @@ public class TaccountServiceImpl implements TaccountService {
 
 			}
 
-			// 关闭事务
-			conn.commit();
-
-		} catch (Exception e) {
-			try {
-				conn.rollback();
-			} catch (SQLException e1) {
-
-				e1.printStackTrace();
-			}
-			e.printStackTrace();
-		} finally {
-			try {
-				DBUtil.DBClose(conn, null, null);
-			} catch (SQLException e) {
-
-				e.printStackTrace();
-			}
-		}
+			
 
 	}
 }
